@@ -23,7 +23,7 @@
 
     self.itemsArray = [NSMutableArray arrayWithObjects: @"To Do1", @"To Do2", @"To Do3", @"To Do4",nil ];
     
-
+   // self.inputField.backgroundColor = [UIColor redColor];
 
 }
 
@@ -47,9 +47,23 @@
 
 
 }
+
 - (IBAction)editItem:(UIBarButtonItem *)sender {
+
 }
 
+//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+//
+//
+//    return nil;
+//}
+
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    return YES;
+}
 
 #pragma mark - UITableViewDataSource protocalls
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -62,7 +76,19 @@
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellID"];
     cell.textLabel.text = [self.itemsArray objectAtIndex:indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     return cell;
+
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+  //  NSLog(@"%ld", (long)indexPath.row);
+
+    cell.backgroundColor = [UIColor greenColor];
+
 
 
 }
