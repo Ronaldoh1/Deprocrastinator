@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *inputField;
 
 @property (nonatomic) NSMutableArray *itemsArray;
+@property (weak, nonatomic) IBOutlet UITableView *tableview;
 
 @end
 
@@ -20,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.itemsArray = [NSMutableArray arrayWithObjects: @"To Do1", @"To Do2", @"To Do3", @"To Do4",nil ];
     
 
 
@@ -27,6 +29,22 @@
 
 
 - (IBAction)addItem:(UIButton *)sender {
+
+    //UITableViewCell *cell = [UITableViewCell new];
+
+   // cell.textLabel.text =    self.inputField.text;
+
+    [self.itemsArray addObject:self.inputField.text];
+
+
+    [self.inputField resignFirstResponder];
+
+    [self.tableview reloadData];
+
+    self.inputField.text = @"";
+
+    
+
 
 }
 - (IBAction)editItem:(UIBarButtonItem *)sender {
@@ -36,13 +54,15 @@
 #pragma mark - UITableViewDataSource protocalls
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    return 0;
+    return self.itemsArray.count;
 
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    return nil;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellID"];
+    cell.textLabel.text = [self.itemsArray objectAtIndex:indexPath.row];
+    return cell;
 
 
 }
