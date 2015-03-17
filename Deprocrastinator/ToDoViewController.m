@@ -7,11 +7,13 @@
 //
 
 #import "ToDoViewController.h"
+#import "ToDo.h"
 
 @interface ToDoViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *inputField;
 
 @property (nonatomic) NSMutableArray *itemsArray;
+@property (nonatomic) NSMutableArray *colorsArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property(nonatomic) int indexForItemToDelete;
 
@@ -21,31 +23,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.itemsArray = [NSMutableArray arrayWithObjects: @"To Do1", @"To Do2", @"To Do3", @"To Do4",nil ];
-    
-   // self.inputField.backgroundColor = [UIColor redColor];
+    ToDo *toDo = [[ToDo alloc]initWithActionItem:@"Get Challenge Done" andWithDecider:0];
 
 
-    
+    self.itemsArray = [NSMutableArray arrayWithObjects:toDo,nil ];
+
+
+
+
+
 
 }
 
 
 - (IBAction)addItem:(UIButton *)sender {
 
-    //UITableViewCell *cell = [UITableViewCell new];
 
-   // cell.textLabel.text =    self.inputField.text;
-
-    [self.itemsArray addObject:self.inputField.text];
+    ToDo *newToDo = [[ToDo alloc] initWithActionItem:self.inputField.text andWithDecider:0];
+    [self.itemsArray addObject:newToDo];
 
 
     [self.inputField resignFirstResponder];
 
+
+
     [self.tableview reloadData];
 
     self.inputField.text = @"";
+
+
 
     
 
@@ -59,11 +65,6 @@
         [sender setTitle:@"Done"];
         [self.tableview setEditing: YES animated: YES];
 
-
-
-        
-        
-
     } else if ([sender.title isEqualToString:@"Done"])
     {
         [sender setTitle:@"Edit"];
@@ -74,13 +75,15 @@
 
 }
 
--(void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self setEditing:true animated:true];
-}
+//-(void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+//    [self setEditing:true animated:true];
+//}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
+
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //remove the deleted object from your data source.
@@ -144,7 +147,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellID"];
-    cell.textLabel.text = [self.itemsArray objectAtIndex:indexPath.row];
+    ToDo *aToDo = [self.itemsArray objectAtIndex:indexPath.row];
+
+    cell.textLabel.textColor = [self colorForRowWithToDo:aToDo];
+    cell.textLabel.text = aToDo.actionItem;
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
@@ -154,9 +161,28 @@
 
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 
-  //  NSLog(@"%ld", (long)indexPath.row);
 
   cell.backgroundColor = [UIColor greenColor];
+}
+-(UIColor *)colorForRowWithToDo:(ToDo *)theToDo{
+    switch (theToDo.colorDecider) {
+        case 0:
+            return [UIColor blackColor];
+            break;
+        case 1:
+            return [UIColor redColor];
+            break;
+        case 2:
+            return [UIColor yellowColor];
+            break;
+        case 3:
+            return [UIColor greenColor];
+            break;
+
+        default:
+            return [UIColor blackColor];
+            break;
+    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate Protocols
@@ -168,29 +194,43 @@
 }
 
 -(void)handleGestureRecognizer: (UISwipeGestureRecognizer *) gestureRecognizer {
+
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
         CGPoint location = [gestureRecognizer locationInView:self.tableview];
         NSIndexPath *indexPath = [self.tableview indexPathForRowAtPoint:location];
         UITableViewCell *cell = [self.tableview cellForRowAtIndexPath:indexPath];
 
         //First we need to check for the case when the color of the text is black. (Itinial color for the cell lable). Otherwise the other if statements will not be executed.
-        
-        if (cell.textLabel.textColor == [UIColor blackColor]){
-            cell.textLabel.textColor= [UIColor redColor];
-        }
-        else if(cell.textLabel.textColor == [UIColor redColor])
-        {
-            cell.textLabel.textColor= [UIColor yellowColor];
-        }
-        else if(cell.textLabel.textColor == [UIColor yellowColor]){
-            cell.textLabel.textColor= [UIColor greenColor];
 
-        }
-        else if(cell.textLabel.textColor == [UIColor greenColor]){
-            cell.textLabel.textColor= [UIColor redColor];
+
+        ToDo *swipeToDo = [self.itemsArray objectAtIndex:indexPath.row];
+
+        switch (swipeToDo.colorDecider) {
+            case 0:
+                swipeToDo.colorDecider = 1;
+                 break;
+            case 1:
+                swipeToDo.colorDecider = 2;
+                 break;
+            case 2:
+                swipeToDo.colorDecider = 3;
+                break;
+                
+            default:
+                break;
         }
 
+
+         [self.tableview reloadData];
     }
+
+
+}
+
+-(void)changeColorAtIndex:(NSIndexPath *)indexPath toColor: (UIColor *) newColor{
+
+    [self.colorsArray removeObjectAtIndex:indexPath.row];
+    [self.colorsArray insertObject:newColor atIndex:indexPath.row];
 
 }
 
