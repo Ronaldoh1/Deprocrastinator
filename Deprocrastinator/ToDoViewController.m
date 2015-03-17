@@ -25,6 +25,9 @@
     
    // self.inputField.backgroundColor = [UIColor redColor];
 
+
+    
+
 }
 
 
@@ -50,6 +53,19 @@
 
 - (IBAction)editItem:(UIBarButtonItem *)sender {
 
+    if([sender.title isEqualToString:@"Edit"])
+    {
+        [sender setTitle:@"Done"];
+        
+        
+
+    } else if ([sender.title isEqualToString:@"Done"])
+    {
+        [sender setTitle:@"Edit"];
+    }
+
+
+
 }
 
 //-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -58,7 +74,15 @@
 //    return nil;
 //}
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    //remove item from the array
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+
+        [self.itemsArray removeObjectAtIndex:indexPath.row];
+        [tableView reloadData]; // tell table to refresh now
+    }
+}
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
@@ -88,14 +112,14 @@
 
   //  NSLog(@"%ld", (long)indexPath.row);
 
-    cell.backgroundColor = [UIColor greenColor];
+  //cell.backgroundColor = [UIColor greenColor];
 }
 
 #pragma mark - UIGestureRecognizerDelegate Protocols
 
 - (IBAction)swipeRightGestureRecognizer:(UISwipeGestureRecognizer *)sender {
 
-
+    [self handleGestureRecognizer:sender];
 
 }
 
@@ -103,14 +127,35 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
         CGPoint location = [gestureRecognizer locationInView:self.tableview];
         NSIndexPath *indexPath = [self.tableview indexPathForRowAtPoint:location];
-        if (indexPath == nil) {
-            NSLog(@"no cell selected");
-                  }else{
-                      NSLog(@"cell was selected");
-                  }
+        UITableViewCell *cell = [self.tableview cellForRowAtIndexPath:indexPath];
+
+        if(cell.textLabel.textColor == [UIColor redColor])
+        {
+            cell.textLabel.textColor= [UIColor yellowColor];
+        }
+        else if(cell.textLabel.textColor == [UIColor yellowColor]){
+            cell.textLabel.textColor= [UIColor greenColor];
+
+        }
+        else if(cell.textLabel.textColor == [UIColor greenColor]){
+            cell.textLabel.textColor= [UIColor redColor];
+        }
+
     }
 
 }
+
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    [self.itemsArray insertObject:[self.itemsArray objectAtIndex: sourceIndexPath.row] atIndex:destinationIndexPath.row];
+    [self.itemsArray removeObject:[self.itemsArray objectAtIndex:sourceIndexPath.row]];
+
+}
+
 
 
 @end

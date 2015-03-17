@@ -72,7 +72,7 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="To Do List" id="oHL-hE-qn4">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="uxu-dw-3Jv">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="uxu-dw-3Jv">
                             <connections>
                                 <action selector="editItem:" destination="BYZ-38-t0r" id="b8X-mH-A4Z"/>
                             </connections>
@@ -88,7 +88,7 @@
                 <swipeGestureRecognizer direction="right" id="eOh-h6-si2">
                     <connections>
                         <action selector="swipeRightGestureRecognizer:" destination="BYZ-38-t0r" id="uQN-99-iDd"/>
-                        <outlet property="delegate" destination="BYZ-38-t0r" id="exg-27-b6V"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="Me7-GA-lHw"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
