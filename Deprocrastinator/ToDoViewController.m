@@ -95,16 +95,22 @@
 
 - (IBAction)swipeRightGestureRecognizer:(UISwipeGestureRecognizer *)sender {
 
-    if (sender.state == UIGestureRecognizerStateEnded){
-        cgPoint location = [sender locat]
-    }
-
-
 
 
 }
 
--
+-(void)handleGestureRecognizer: (UISwipeGestureRecognizer *) gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+        CGPoint location = [gestureRecognizer locationInView:self.tableview];
+        NSIndexPath *indexPath = [self.tableview indexPathForRowAtPoint:location];
+        if (indexPath == nil) {
+            NSLog(@"no cell selected");
+                  }else{
+                      NSLog(@"cell was selected");
+                  }
+    }
+
+}
 
 
 @end
