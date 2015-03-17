@@ -8,7 +8,7 @@
 
 #import "ToDoViewController.h"
 
-@interface ToDoViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ToDoViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *inputField;
 
 @property (nonatomic) NSMutableArray *itemsArray;
@@ -61,9 +61,10 @@
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     return YES;
 }
+
+
 
 #pragma mark - UITableViewDataSource protocalls
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -88,9 +89,22 @@
   //  NSLog(@"%ld", (long)indexPath.row);
 
     cell.backgroundColor = [UIColor greenColor];
+}
+
+#pragma mark - UIGestureRecognizerDelegate Protocols
+
+- (IBAction)swipeRightGestureRecognizer:(UISwipeGestureRecognizer *)sender {
+
+    if (sender.state == UIGestureRecognizerStateEnded){
+        cgPoint location = [sender locat]
+    }
+
 
 
 
 }
+
+-
+
 
 @end

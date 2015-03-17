@@ -35,8 +35,8 @@
                                     <action selector="addItem:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bbg-bj-Sxl"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="HWB-TV-pZ7">
-                                <rect key="frame" x="16" y="115" width="414" height="642"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="HWB-TV-pZ7">
+                                <rect key="frame" x="0.0" y="94" width="414" height="642"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -55,6 +55,7 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="HWB-TV-pZ7" secondAttribute="bottom" id="6Km-93-OBm"/>
                             <constraint firstItem="HWB-TV-pZ7" firstAttribute="top" secondItem="UQq-HP-udR" secondAttribute="bottom" id="Our-lo-hPQ"/>
@@ -66,6 +67,9 @@
                             <constraint firstItem="UQq-HP-udR" firstAttribute="leading" secondItem="In9-92-AYK" secondAttribute="trailing" constant="1" id="eFV-9P-76O"/>
                             <constraint firstItem="HWB-TV-pZ7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="xUj-tx-Vjn"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="eOh-h6-si2" appends="YES" id="7wT-QQ-rje"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="To Do List" id="oHL-hE-qn4">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="uxu-dw-3Jv">
@@ -81,6 +85,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="eOh-h6-si2">
+                    <connections>
+                        <action selector="swipeRightGestureRecognizer:" destination="BYZ-38-t0r" id="uQN-99-iDd"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="exg-27-b6V"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1123" y="245"/>
         </scene>
